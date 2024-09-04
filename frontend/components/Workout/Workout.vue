@@ -31,7 +31,10 @@
                     </button>
                     <div v-if="toggleOptions.workoutMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-20">
                         <button
-                            @click.stop="toggleWorkoutMenu(), $emit('editWorkout',{id: workout.id, name: workout.name, type: workout.type})"
+                            @click.stop="
+                                toggleWorkoutMenu(),
+                                $emit('editWorkout',{id: workout.id, name: workout.name, type: workout.type})
+                            "
                             class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center w-full"
                         >
                             Edit
@@ -40,7 +43,10 @@
                             </svg>
                         </button>
                         <button
-                            @click.stop="$emit('deleteWorkout')"
+                            @click.stop="
+                                toggleWorkoutMenu(),
+                                $emit('deleteWorkout',{id: workout.id, name: workout.name, rank: workout.rank})
+                            "
                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center w-full"
                         >
                             Delete
@@ -59,7 +65,10 @@
                         </button>
 
                         <button
-                            @click.stop="$emit('deleteAllStats')"
+                            @click.stop="
+                                toggleWorkoutMenu(),
+                                $emit('deleteStats', {id: workout.id, name: workout.name, rank: workout.rank})
+                            "
                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center w-full" 
                         >
                             Delete All Stats
@@ -79,8 +88,6 @@
                     v-model="exercises[workout.id]" 
                     @end="upDrag"
                     item-key="id"
-                    @dragstart.stop
-                    @dragend.stop
                 >
                     <template
                     #item="{ element: exercise }"
@@ -93,28 +100,24 @@
                         />
                     </template>
                 </draggable>
-                <div class="flex justify-center space-x-4 mt-4">
-                    <button @click.stop="" class="flex items-center p-1 sm:px-4 sm:py-2 rounded-md border border-gray-500 text-white hover:bg-gray-700 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <div class="flex justify-center mt-6">
+                    <button @click="toggleAddExercise" class="flex items-center justify-center border border-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a1 1 0 01-1-1V11H3a1 1 0 110-2h6V3a1 1 0 112 0v6h6a1 1 0 110 2h-6v6a1 1 0 01-1 1z" clip-rule="evenodd" />
                         </svg>
-                        <span class="hidden sm:inline">Add Exercise</span>
-                    </button>
-                    <button @click.stop="" class="flex items-center p-1 sm:px-4 sm:py-2 rounded-md border border-gray-500 text-white hover:bg-gray-700 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 13V16h3l8.5-8.5-3-3L4 13z" />
-                        </svg>
-                        <span class="hidden sm:inline">Edit Exercise</span>
-                    </button>
-                    <button @click.stop="" class="flex items-center p-1 sm:px-4 sm:py-2 rounded-md border border-gray-500 text-white hover:bg-gray-700 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M6 8a1 1 0 011-1h6a1 1 0 011 1v7a2 2 0 01-2 2H8a2 2 0 01-2-2V8zm3-3a1 1 0 112 0v1H9V5zM4 7v10a4 4 0 004 4h4a4 4 0 004-4V7a2 2 0 00-2-2H6a2 2 0 00-2 2z" clip-rule="evenodd" />
-                        </svg>
-                        <span class="hidden sm:inline">Delete Exercise</span>
+                        Add Exercise
                     </button>
                 </div>
         </div>
         </transition>
+
+        <ExerciseFormAdd
+            @click.stop=""
+            v-if="toggleOptions.addExercise"
+            :workoutId="workout.id"
+
+            @dismiss="toggleAddExercise"
+        />
     </div>
 </template>
 
@@ -139,14 +142,18 @@
     const toggleOptions = ref({
         open: false,
         workoutMenu: false,
-    });
+        addExercise: false,
+    })
 
     const toggleSection = () => {
-        toggleOptions.value.open = !toggleOptions.value.open;
-    };  
+        toggleOptions.value.open = !toggleOptions.value.open
+    }  
     const toggleWorkoutMenu = () => {
-        toggleOptions.value.workoutMenu = !toggleOptions.value.workoutMenu;
-    };
+        toggleOptions.value.workoutMenu = !toggleOptions.value.workoutMenu
+    }
+    const toggleAddExercise = () => {
+        toggleOptions.value.addExercise = !toggleOptions.value.addExercise
+    }
 
     const upDrag = () => {
         updatExerciseOrder(props.workout.id)

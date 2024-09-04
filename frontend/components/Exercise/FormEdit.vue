@@ -35,7 +35,7 @@
 
             <div class="flex justify-between space-x-2 mt-4">
                 <div>
-                    <button type="button" @click="" class="bg-red-600 text-white px-4 py-2 rounded-md">Delete</button>
+                    <button type="button" @click="$emit('deleteExercise')" class="bg-red-600 text-white px-4 py-2 rounded-md">Delete</button>
                 </div>
                 <div class="space-x-2">
                     <button type="button" @click="$emit('dismiss')" class="bg-gray-600 text-white px-4 py-2 rounded-md">Cancel</button>
@@ -67,7 +67,7 @@
     const newWeight = ref(props.exercise.attributes.weight);
     const newRest = ref(props.exercise.attributes.rest);
 
-    const emit = defineEmits(['dismiss']);
+    const emit = defineEmits(['dismiss', 'deleteExercise']);
 
     const exerciseStore = useExerciseStore()
     const { editExercise } = exerciseStore

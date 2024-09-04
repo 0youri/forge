@@ -362,6 +362,126 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiExerciseExercise extends Schema.CollectionType {
+  collectionName: 'exercises';
+  info: {
+    singularName: 'exercise';
+    pluralName: 'exercises';
+    displayName: 'Exercise';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    muscle: Attribute.String;
+    name: Attribute.String;
+    weight: Attribute.Decimal;
+    rest: Attribute.Decimal;
+    rank: Attribute.Integer;
+    workout: Attribute.Relation<
+      'api::exercise.exercise',
+      'manyToOne',
+      'api::workout.workout'
+    >;
+    stats: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToMany',
+      'api::stat.stat'
+    >;
+    reps: Attribute.String & Attribute.Required;
+    sets: Attribute.Integer & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStatStat extends Schema.CollectionType {
+  collectionName: 'stats';
+  info: {
+    singularName: 'stat';
+    pluralName: 'stats';
+    displayName: 'Stats';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    date: Attribute.Date;
+    reps: Attribute.String;
+    weight: Attribute.String;
+    exercise: Attribute.Relation<
+      'api::stat.stat',
+      'manyToOne',
+      'api::exercise.exercise'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWorkoutWorkout extends Schema.CollectionType {
+  collectionName: 'workouts';
+  info: {
+    singularName: 'workout';
+    pluralName: 'workouts';
+    displayName: 'Workout';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    type: Attribute.String & Attribute.Required;
+    rank: Attribute.Integer & Attribute.Required;
+    exercises: Attribute.Relation<
+      'api::workout.workout',
+      'oneToMany',
+      'api::exercise.exercise'
+    >;
+    user: Attribute.Relation<
+      'api::workout.workout',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::workout.workout',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::workout.workout',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -792,126 +912,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiExerciseExercise extends Schema.CollectionType {
-  collectionName: 'exercises';
-  info: {
-    singularName: 'exercise';
-    pluralName: 'exercises';
-    displayName: 'Exercise';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    muscle: Attribute.String;
-    name: Attribute.String;
-    weight: Attribute.Decimal;
-    rest: Attribute.Decimal;
-    rank: Attribute.Integer;
-    workout: Attribute.Relation<
-      'api::exercise.exercise',
-      'manyToOne',
-      'api::workout.workout'
-    >;
-    stats: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToMany',
-      'api::stat.stat'
-    >;
-    reps: Attribute.String & Attribute.Required;
-    sets: Attribute.Integer & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiStatStat extends Schema.CollectionType {
-  collectionName: 'stats';
-  info: {
-    singularName: 'stat';
-    pluralName: 'stats';
-    displayName: 'Stats';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    date: Attribute.Date;
-    reps: Attribute.String;
-    weight: Attribute.String;
-    exercise: Attribute.Relation<
-      'api::stat.stat',
-      'manyToOne',
-      'api::exercise.exercise'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::stat.stat', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWorkoutWorkout extends Schema.CollectionType {
-  collectionName: 'workouts';
-  info: {
-    singularName: 'workout';
-    pluralName: 'workouts';
-    displayName: 'Workout';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    type: Attribute.String & Attribute.Required;
-    rank: Attribute.Integer & Attribute.Required;
-    exercises: Attribute.Relation<
-      'api::workout.workout',
-      'oneToMany',
-      'api::exercise.exercise'
-    >;
-    user: Attribute.Relation<
-      'api::workout.workout',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::workout.workout',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::workout.workout',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -922,6 +922,9 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::exercise.exercise': ApiExerciseExercise;
+      'api::stat.stat': ApiStatStat;
+      'api::workout.workout': ApiWorkoutWorkout;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -930,9 +933,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::exercise.exercise': ApiExerciseExercise;
-      'api::stat.stat': ApiStatStat;
-      'api::workout.workout': ApiWorkoutWorkout;
     }
   }
 }

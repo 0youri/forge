@@ -44,7 +44,7 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
         const { data } = await create<Workout>("workouts", newWorkout).then(res => {
             return { data: res.data }
         }).catch(e => { throw e })
-        workouts.value.push(...[{name : name, type: type, rank: rank}])
+        workouts.value.push(...[{id: data.id, name : name, type: type, rank: rank}])
     }
 
     async function editWorkout(id: number, name: string, type: string) {
@@ -55,14 +55,12 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
         const { data } = await update<Workout>("workouts", id, changes).then(res => {
             return { data: res.data }
         }).catch(e => { throw e })
-        updateLocalWorkout('edited', {id, changes})
+        updateLocalWorkout('edit', { id, changes })
     }
 
-    async function deleteWorkout(id: string | number) {
-        const { data } = await _delete<Workout>("workouts", id).then(res => {
-            return { data: res.data }
-        }).catch(e => { throw e })
-        // console.log(data) -> return response with id, name, type, rank and some dates
+    async function deleteWorkout(id: number) {
+        updateLocalWorkout('delete', { id })
+        await _delete<Workout>("workouts", id).catch(e => { throw e })
     }
 
     async function updateWorkoutOrder() {
@@ -80,7 +78,7 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
             for (let i = 0; i < workouts.value.length; i++) {
                 workouts.value[i].rank = i + 1;
             }
-        } else if ( state === 'edited' ) { 
+        } else if ( state === 'edit' ) { 
             const newWorkout = workouts.value.find((el: { id: number }) => el.id === body.id);
 
             if (newWorkout && body.changes) {
@@ -92,6 +90,8 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
                 }
             }
 
+        } else if ( state === "delete" ) {
+            workouts.value = workouts.value.filter((el: { id: number }) => el.id !== body.id)
         }
     }
 

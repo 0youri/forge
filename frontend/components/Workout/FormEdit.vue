@@ -29,7 +29,6 @@
   
 <script setup>  
   import { useWorkoutStore } from '~/store/workout'
-  import { storeToRefs } from 'pinia'  
 
   const props = defineProps({
     workout: {
@@ -41,8 +40,6 @@
 
   const workoutStore = useWorkoutStore()
   const { editWorkout } = workoutStore
-  const { workouts } = storeToRefs(workoutStore)
-
 
   const name = ref(props.workout.name)
   const type = ref(props.workout.type)

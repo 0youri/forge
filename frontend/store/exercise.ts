@@ -50,12 +50,12 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
             rest: rest,
             rank: rank,
             workout: workout
-        };
+        }
 
         const { data } = await create<Exercise>("exercises", newExercise).then(res => {
             return { data: res.data }
         }).catch(e => { throw e })
-        // console.log(data) -> return response with id, name, type, rank and some dates
+        updateLocalExercise('add', workout, data)
     }
 
     async function editExercise(
@@ -81,19 +81,19 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
             return { data: res.data }
         }).catch(e => { throw e })
 
-        updateLocalExercise('edited', workoutId, {id, changes})
+        updateLocalExercise('edit', workoutId, {id, changes})
     }
 
-    async function deleteExercise(id: string | number) {
-        const { data } = await _delete<Exercise>("exercises", id).then(res => {
-            return { data: res.data }
-        }).catch(e => { throw e })
-        // console.log(data) -> return response with id, name, type, rank and some dates
+    async function deleteExercise(
+        workoutId: number,
+        id: number
+    ) {
+        updateLocalExercise('delete', workoutId, { id })
+        await _delete<Exercise>("exercises", id).catch(e => { throw e })
     }
 
     async function updatExerciseOrder(workoutId: number) {
         updateLocalExercise('order', workoutId)
-
         for (let i = 0; i < exercises.value[workoutId].length; i++) {
             await update<Exercise>("exercises",  exercises.value[workoutId][i].id, {
                 rank: i + 1,
@@ -104,9 +104,9 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
     const updateLocalExercise = (state: string, workoutId?: number, body?: { id?: number, changes?: Exercise }) => {
         if ( state === 'order' ) {
             for (let i = 0; i < exercises.value[workoutId].length; i++) {
-                exercises.value[workoutId][i].attributes.rank = i + 1;
+                exercises.value[workoutId][i].attributes.rank = i + 1
             }
-        } else if ( state === 'edited' ) { 
+        } else if ( state === 'edit' ) { 
             const newExercise = exercises.value[workoutId].find((el: { id: number }) => el.id === body.id).attributes;
             if (newExercise && body.changes) {
                 if (body.changes.muscle !== undefined) {
@@ -128,6 +128,10 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
                     newExercise.rest = body.changes.rest;
                 }
             }
+        } else if ( state === "delete" ) {
+            exercises.value[workoutId] = exercises.value[workoutId].filter((el: { id: number }) => el.id !== body.id)
+        } else if ( state === "add" ) {
+            exercises.value[workoutId].push(...[body])
         }
     }
 

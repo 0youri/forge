@@ -16,6 +16,8 @@
             :workout="workout"
             
             @editWorkout="toggleEditWorkout"
+            @deleteWorkout="toggleDeleteWorkout"
+            @deleteStats="toggleDeleteStats"
           />
         </template>
        
@@ -40,9 +42,17 @@
         @dismiss="toggleEditWorkout"
         :workout="workout"
       />
-      <!-- <ExerciseFormEdit 
-        v-if="toggleOptions.addExercise"
-      /> -->
+      <WorkoutFormDelete
+        v-if="toggleOptions.deleteWorkout"
+        :workout="workout"
+        @dismiss="toggleDeleteWorkout"
+      />
+
+      <StatsFormDelete
+        v-if="toggleOptions.deleteStats"
+        :workout="workout"
+        @dismiss="toggleDeleteStats"
+      />
     </div>
 
     
@@ -73,17 +83,27 @@
     addWorkout: false,
     editWorkout: false,
     addExercise: false,
+    deleteWorkout: false,
+    deleteStats: false,
   });
 
   const toggleAddWorkout = () => {
     toggleOptions.value.addWorkout = !toggleOptions.value.addWorkout;
-  };
-  
+  }
+
   const workout = ref<Object>()
   const toggleEditWorkout = (data: any) => {
     toggleOptions.value.editWorkout = !toggleOptions.value.editWorkout;
     workout.value = data
-  }; 
+  }
+  const toggleDeleteWorkout = (data: any) => {
+    toggleOptions.value.deleteWorkout = !toggleOptions.value.deleteWorkout
+    workout.value = data
+  } 
+  const toggleDeleteStats = (data: any) => {
+    toggleOptions.value.deleteStats = !toggleOptions.value.deleteStats
+    workout.value = data
+  }
 
   const upDrag = () => {
     updateWorkoutOrder()

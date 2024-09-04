@@ -16,6 +16,15 @@
             :workoutId="workoutId"
             :exercise="exercise"
             @dismiss="toggleEditExercise"
+            @deleteExercise="toggleDeleteExercise"
+        />
+
+        <ExerciseFormDelete
+            v-if="toggleOptions.deleteExercise"
+            :key="exercise.id"
+            :workoutId="workoutId"
+            :exercise="exercise"
+            @dismiss="toggleDeleteExercise"
         />
     </div>
 </template>
@@ -36,13 +45,18 @@
             default: {},
         },
     })
+
     const toggleOptions = ref({
         editExercise: false,
+        deleteExercise: false,
     });
 
     const toggleEditExercise = () => {
-        toggleOptions.value.editExercise = !toggleOptions.value.editExercise;
-    };
+        toggleOptions.value.editExercise = !toggleOptions.value.editExercise
+    }
+    const toggleDeleteExercise = () => {
+        toggleOptions.value.deleteExercise = !toggleOptions.value.deleteExercise
+    }
 
 </script>
 
