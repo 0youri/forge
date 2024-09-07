@@ -374,11 +374,40 @@ export interface ApiExerciseExercise extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    muscle: Attribute.String;
-    name: Attribute.String;
-    weight: Attribute.Decimal;
-    rest: Attribute.Decimal;
-    rank: Attribute.Integer;
+    muscle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    weight: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    rest: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    rank: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
     workout: Attribute.Relation<
       'api::exercise.exercise',
       'manyToOne',
@@ -389,8 +418,19 @@ export interface ApiExerciseExercise extends Schema.CollectionType {
       'oneToMany',
       'api::stat.stat'
     >;
-    reps: Attribute.String & Attribute.Required;
-    sets: Attribute.Integer & Attribute.Required;
+    reps: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    sets: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -421,9 +461,17 @@ export interface ApiStatStat extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    date: Attribute.Date;
-    reps: Attribute.String;
-    weight: Attribute.String;
+    date: Attribute.Date & Attribute.Required;
+    reps: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    weight: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
     exercise: Attribute.Relation<
       'api::stat.stat',
       'manyToOne',
@@ -451,9 +499,24 @@ export interface ApiWorkoutWorkout extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required;
-    type: Attribute.String & Attribute.Required;
-    rank: Attribute.Integer & Attribute.Required;
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    type: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    rank: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
     exercises: Attribute.Relation<
       'api::workout.workout',
       'oneToMany',

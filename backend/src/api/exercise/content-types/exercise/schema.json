@@ -13,19 +13,29 @@
   "pluginOptions": {},
   "attributes": {
     "muscle": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "minLength": 1
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "minLength": 1
     },
     "weight": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "min": 0
     },
     "rest": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "min": 0
     },
     "rank": {
-      "type": "integer"
+      "type": "integer",
+      "required": true,
+      "min": 1
     },
     "workout": {
       "type": "relation",
@@ -41,11 +51,13 @@
     },
     "reps": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 1
     },
     "sets": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 1
     }
   }
 }

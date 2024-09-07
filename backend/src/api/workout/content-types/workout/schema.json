@@ -14,15 +14,18 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 1
     },
     "type": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 1
     },
     "rank": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 1
     },
     "exercises": {
       "type": "relation",

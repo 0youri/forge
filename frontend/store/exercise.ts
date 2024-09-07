@@ -8,7 +8,6 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
     const user = useStrapiUser()
     const exercises = ref<Exercise[]>([])
     const exercise = ref([])
-    const exerciseState = ref(0)
 
     // Actions & getters
     async function getExercises(id: number) {
@@ -54,7 +53,9 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
 
         const { data } = await create<Exercise>("exercises", newExercise).then(res => {
             return { data: res.data }
-        }).catch(e => { throw e })
+        }).catch(e => { 
+            console.log(e)
+        })
         updateLocalExercise('add', workout, data)
     }
 
@@ -135,14 +136,18 @@ export const useExerciseStore = defineStore('exerciseStore', () => {
         }
     }
 
-    function getExercisesByWorkoutId(id) {
+    function getExercisesByWorkoutId(id: number) {
         return exercises.value[id] || [];
+    }
+
+    function getExerciseAddStats(id: number, rank: number) {
+        return exercises.value?.[id]?.[rank] || []
     }
 
     return { 
        getExercises, exercises,
        getExercise, exercise,
        addExercise, editExercise, deleteExercise, updatExerciseOrder,
-       getExercisesByWorkoutId,
+       getExercisesByWorkoutId, getExerciseAddStats
     }
 })

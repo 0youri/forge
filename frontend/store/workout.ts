@@ -41,10 +41,9 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
             user: user.value
         };
     
-        const { data } = await create<Workout>("workouts", newWorkout).then(res => {
-            return { data: res.data }
+        await create<Workout>("workouts", newWorkout).then(res => {
+            workouts.value.push(...[{id: res.data.id, name : name, type: type, rank: rank}])
         }).catch(e => { throw e })
-        workouts.value.push(...[{id: data.id, name : name, type: type, rank: rank}])
     }
 
     async function editWorkout(id: number, name: string, type: string) {
@@ -52,10 +51,9 @@ export const useWorkoutStore = defineStore('workoutStore', () => {
             name: name,
             type: type,
         };
-        const { data } = await update<Workout>("workouts", id, changes).then(res => {
-            return { data: res.data }
+        await update<Workout>("workouts", id, changes).then(() => {
+            updateLocalWorkout('edit', { id, changes })
         }).catch(e => { throw e })
-        updateLocalWorkout('edit', { id, changes })
     }
 
     async function deleteWorkout(id: number) {
