@@ -28,11 +28,26 @@ export const useStatsStore = defineStore('statsStore', () => {
     async function getStatsWorkout(id: number) {
         try {
             const { data } = await findOne<Workout>("workouts", id, {
-                populate: { exercises: { populate: "stats" } }
-            });
+                populate: {
+                    exercises: {
+                        populate: {
+                            stats: {
+                                sort: ['date:desc'],
+                            },
+                            
+                        },
+                        sort: ['rank:asc'],
+                    }
+                },
+                
+            })
     
-            statsWorkout.value = data?.attributes?.exercises?.data
-                ?.flatMap((exercise: any) => exercise.attributes?.stats?.data || []) || [];
+            if (data?.attributes?.exercises?.data) {
+                statsWorkout.value = data.attributes.exercises.data.map(exercise => {
+                    exercise.attributes.stats.data = exercise?.attributes?.stats?.data?.slice(0, 3) || [];
+                    return exercise;
+                });
+            }
         } catch (e) {
             throw e;
         }
@@ -73,10 +88,10 @@ export const useStatsStore = defineStore('statsStore', () => {
     async function deleteStatsWorkout(id: number) {
         try {
             await getStatsWorkout(id);
-    
-            if (statsWorkout.value?.length) {
+            const tempStats = statsWorkout.value?.flatMap((exercise: any) => exercise.attributes?.stats?.data || []) || [];
+            if (tempStats?.length) {
                 await Promise.all(
-                    statsWorkout.value.map((stat: Stat) => 
+                    tempStats.map((stat: Stat) => 
                         _delete<Stat>("stats", stat.id)
                     )
                 );

@@ -1,5 +1,5 @@
 <template>
-    <div @click="toggleSection()" class="bg-gray-800 rounded-lg p-3 mb-5 sm:p-5 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+    <div @click="toggleSection()" class="bg-gray-700 rounded-lg p-3 mb-5 sm:p-5 cursor-pointer">
         <div class="flex justify-between items-center flex-row">
             <div class="flex items-center space-x-4">
                 <!-- Plus Icon -->
@@ -21,9 +21,9 @@
                 <!-- Edit Button -->
                 <NuxtLink
                     :to="`/${workout.id}/start/1`"
-                    class="flex text-sm items-center p-2 sm:px-4 sm:py-2 rounded-md border border-gray-500 text-white hover:bg-gray-700 transition"
+                    class="flex text-sm items-center p-2 sm:px-4 sm:py-2 rounded-md border border-gray-500 text-white hover:bg-gray-500 transition"
                 >
-                    <span>Start workout</span>
+                    Start workout
                 </NuxtLink>
                 <!-- Stats Icon with Dropdown -->
                 <div  class="relative">
@@ -32,7 +32,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                         </svg>
                     </button>
-                    <div v-if="toggleOptions.workoutMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-20">
+                    <div v-if="toggleOptions.workoutMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md z-20">
                         <button
                             @click.stop="
                                 toggleWorkoutMenu(),
@@ -57,15 +57,16 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </button>
-                        <button
-                            @click.stop="$emit('lookStats')"
+                        <NuxtLink
+                            :to="`/${workout.id}/stats`"
                             class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center w-full"
+                            target="_blank"
                         >
                             Look stats
                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-auto h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 9h12M9 15h12M9 21h12" />
                             </svg>
-                        </button>
+                        </NuxtLink>
 
                         <button
                             @click.stop="

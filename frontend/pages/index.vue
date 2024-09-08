@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-black text-white">
+  <div class="min-h-screen bg-gray-800 text-white">
     <div class="container mx-auto p-4 sm:p-6 space-y-4">
       <!-- Workout Item -->
       <draggable 

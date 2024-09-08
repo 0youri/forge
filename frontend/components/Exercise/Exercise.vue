@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-900 p-4 sm:p-6 rounded-md mb-4">
+    <div class="bg-gray-800 p-4 sm:p-6 rounded-md mb-4">
         <div @click.stop="toggleEditExercise">
             <div class="flex flex-row justify-between sm:items-center">
                 <h2 class="text-sm sm:text-lg font-light text-gray-400">#{{ exercise.attributes.rank }} {{ exercise.attributes.muscle }}</h2>

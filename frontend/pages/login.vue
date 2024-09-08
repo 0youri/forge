@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-yellow-500 via-black-90">
-    <div class="w-full max-w-md p-8 bg-gray-900 rounded-lg shadow-lg">
+    <div class="w-full max-w-md p-8 bg-gray-900 rounded-lg">
       <h1 class="text-3xl font-semibold text-yellow-500 text-center mb-6">Login</h1>
       <form @submit.prevent="connect(username, password)" class="space-y-6">
         <div>

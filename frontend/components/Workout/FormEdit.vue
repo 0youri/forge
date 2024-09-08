@@ -1,6 +1,6 @@
 <template>
     <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
         <h2 class="text-xl font-bold mb-4">Edit Workout</h2>
         <!-- Form Inputs -->
         <form @submit.prevent="edit">

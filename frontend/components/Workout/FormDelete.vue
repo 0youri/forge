@@ -1,6 +1,6 @@
 <template>
     <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <div class="bg-gray-800 p-6 rounded-lg w-full max-w-lg">
         <h2 class="text-xl font-bold mb-4">Delete Workout</h2>
         <p>Are you sure you want to delete "<i>#{{ workout.rank }} {{ workout.name }}</i>" ?</p>
         <div class="flex justify-end space-x-2 mt-4">

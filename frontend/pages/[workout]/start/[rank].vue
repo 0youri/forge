@@ -59,7 +59,7 @@
             </svg>
           </div>
           <div class="flex justify-end space-x-2 mt-4">
-            <button type="button" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500">Cancel</button>
+            <NuxtLink to="/" type="button" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500">Cancel</NuxtLink>
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500">Submit</button>
           </div>
         </form>
@@ -111,7 +111,7 @@
         addStat(exercise.value.id, repsString, weightString)
         isLoading.value = false
         router.push(`${rank + 2}`)
-      }, 500)
+      }, 250)
     }
   }
 </script>
