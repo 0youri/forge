@@ -1,0 +1,55 @@
+services:
+  forge_frontend:
+    image: forge_frontend
+    container_name: forge_frontend
+    env_file: .env.frontend
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+      args:
+        ENV_FILE: docker/.env.frontend 
+    ports:
+      - 3010:3010
+    networks:
+      - forge-network
+      - nginx-network
+
+  forge_backend:
+    image: forge_backend
+    container_name: forge_backend
+    env_file: .env.backend
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+      args:
+        ENV_FILE: docker/.env.backend 
+    depends_on:
+      - forge_db
+    ports:
+      - 4010:4010
+    networks:
+      - forge-network
+      - nginx-network
+
+  forge_db:
+    image: postgres:latest
+    container_name: forge_db
+    restart: always
+    env_file: .env.db
+    volumes:
+      - forge_data:/var/lib/postgresql/data
+    networks:
+      - forge-network
+
+volumes:
+  forge_data:
+    name: forge_data
+
+networks:
+  forge-network:
+    name: forge-network
+    driver: bridge
+  nginx-network:
+    external: true 
+
+  
