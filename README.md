@@ -17,12 +17,3 @@ FORGE is a powerful and intuitive workout tracking app that helps you log exerci
 - **Deployment**: Digital Ocean
 - **Styling**: TailwindCSS
 
-## 📂 Project Structure
-```
-FORGE/
-├── backend/  # Strapi API and Database
-├── frontend/ # Nuxt3-based UI
-├── docker/   # Docker configurations
-└── README.md
-```
-
